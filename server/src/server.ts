@@ -32,11 +32,11 @@ async function serveStatic(urlPath: string): Promise<Response> {
   let filePath = path.join(PUBLIC_DIR, rel === "/" ? "index.html" : rel.slice(1));
   let data: Uint8Array;
   try {
-    data = await readFile(filePath);
+    data = new Uint8Array(await readFile(filePath));
   } catch {
     // SPA fallback: client-side routes (#admin, /admin, etc.)
     try {
-      data = await readFile(path.join(PUBLIC_DIR, "index.html"));
+      data = new Uint8Array(await readFile(path.join(PUBLIC_DIR, "index.html")));
       filePath = path.join(PUBLIC_DIR, "index.html");
     } catch {
       return new Response("not found", { status: 404 });
